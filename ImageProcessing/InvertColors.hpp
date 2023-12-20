@@ -4,6 +4,6 @@
 class InvertColors final : public Effect
 {
 public:
-    void add_effect(cv::Mat& img, int number_row) override;
+    void addEffect(cv::Mat& img, const cv::Mat slice) override;
     ~InvertColors() override = default;
 };

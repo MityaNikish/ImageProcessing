@@ -6,7 +6,7 @@
 int main()
 {
     ImageProcessing Client;
-    Client.setStrategy(std::make_unique<InvertColors>());
+    Client.setEffect(std::make_unique<InvertColors>());
 
     cv::Mat inputImage = cv::imread("bird.jpg");
 
@@ -14,7 +14,7 @@ int main()
         std::cerr << "Error: Unable to load input image." << std::endl;
     }
 
-    cv::Mat outputImage = Client.useStrategy(inputImage);
+    cv::Mat outputImage = Client.applyEffect(inputImage);
 
     cv::imwrite("output_image.jpg", outputImage);
 

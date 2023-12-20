@@ -7,160 +7,120 @@
 
 
 
-TEST(Test_InvertColors, AllThreads)
+int main()
 {
-    ImageProcessing obj_img_proc;
-    obj_img_proc.setStrategy(std::make_unique<InvertColors>());
+    ImageProcessing image_processing(2);
+    image_processing.setEffect(std::make_unique<InvertColors>());
 
-    cv::Mat inputImage = cv::imread("bird.jpg");
+    cv::Mat input_image = cv::imread("bird.jpg");
 
-    if (inputImage.empty()) {
+    if (input_image.empty()) {
         std::cerr << "Error: Unable to load input image." << std::endl;
     }
 
     auto start_time = std::chrono::high_resolution_clock::now();
-    cv::Mat outputImage = obj_img_proc.useStrategy(inputImage);
+    cv::Mat output_image = image_processing.applyEffectSubsequently(input_image);
     auto end_time = std::chrono::high_resolution_clock::now();
 
     auto duration = std::chrono::duration_cast<std::chrono::microseconds>(end_time - start_time);
     std::cout << "Working hours: " << duration << std::endl;
 
     //cv::imwrite("output_image.jpg", outputImage);
+
+    cv::imshow("Image", output_image);
+    cv::waitKey(0);
+
+    return 0;
 }
 
 
-TEST(Test_InvertColors, OneThreads)
-{
-    ImageProcessing obj_img_proc(1);
-    obj_img_proc.setStrategy(std::make_unique<InvertColors>());
-
-    cv::Mat inputImage = cv::imread("bird.jpg");
-
-    if (inputImage.empty()) {
-        std::cerr << "Error: Unable to load input image." << std::endl;
-    }
-
-    auto start_time = std::chrono::high_resolution_clock::now();
-    cv::Mat outputImage = obj_img_proc.useStrategy(inputImage);
-    auto end_time = std::chrono::high_resolution_clock::now();
-
-    auto duration = std::chrono::duration_cast<std::chrono::microseconds>(end_time - start_time);
-    std::cout << "Working hours: " << duration << std::endl;
-
-    //cv::imwrite("output_image.jpg", outputImage);
-}
-
-
-
-//#include <vector>
-//#include <thread>
-//#include <future>
-//#include <deque>
-//#include <mutex>
+//int main()
+//{
+//    ImageProcessing img_proc(1);
+//    img_proc.setEffect(std::make_unique<InvertColors>());
 //
-//std::mutex mtx; // Глобальный мьютекс
+//    cv::Mat input_image = cv::imread("bird.jpg");
 //
-//// Задача для умножения строки на её номер
-//void multiplyRow(std::vector<int>& row, int rowNumber) {
-//    for (int& element : row) {
-//        element *= rowNumber;
-//    }
-//}
-//
-//// Реализация простого пула потоков
-//class ThreadPool {
-//public:
-//    explicit ThreadPool(size_t numThreads) : stop(false) {
-//        for (size_t i = 0; i < numThreads; ++i) {
-//            threads.emplace_back([this] {
-//                while (true) {
-//                    std::function<void()> task;
-//
-//                    {
-//                        std::unique_lock<std::mutex> lock(queueMutex);
-//                        condition.wait(lock, [this] { return stop || !tasks.empty(); });
-//
-//                        if (stop && tasks.empty()) {
-//                            return;
-//                        }
-//
-//                        task = std::move(tasks.front());
-//                        tasks.pop_front();
-//                    }
-//
-//                    task();
-//                }
-//            });
-//        }
+//    if (input_image.empty()) {
+//        std::cerr << "Error: Unable to load input image." << std::endl;
 //    }
 //
-//    template<class F, class... Args>
-//    auto enqueue(F&& f, Args&&... args) -> std::future<typename std::result_of<F(Args...)>::type> {
-//        using return_type = typename std::result_of<F(Args...)>::type;
+//    auto start_time = std::chrono::high_resolution_clock::now();
+//    cv::Mat output_image = img_proc.applyEffect(input_image);
+//    auto end_time = std::chrono::high_resolution_clock::now();
 //
-//        auto task = std::make_shared<std::packaged_task<return_type()>>(std::bind(std::forward<F>(f), std::forward<Args>(args)...));
-//        std::future<return_type> res = task->get_future();
+//    auto duration = std::chrono::duration_cast<std::chrono::microseconds>(end_time - start_time);
+//    std::cout << "Working hours: " << duration << std::endl;
 //
-//        {
-//            std::unique_lock<std::mutex> lock(queueMutex);
-//            // don't allow enqueueing after stopping the pool
-//            if (stop) {
-//                throw std::runtime_error("enqueue on stopped ThreadPool");
-//            }
+//    //cv::imwrite("output_image.jpg", outputImage);
 //
-//            tasks.emplace_back([task]() { (*task)(); });
-//        }
-//
-//        condition.notify_one();
-//        return res;
-//    }
-//
-//    ~ThreadPool() {
-//        {
-//            std::unique_lock<std::mutex> lock(queueMutex);
-//            stop = true;
-//        }
-//
-//        condition.notify_all();
-//
-//        for (std::thread& worker : threads) {
-//            worker.join();
-//        }
-//    }
-//
-//private:
-//    std::vector<std::thread> threads;
-//    std::deque<std::function<void()>> tasks;
-//    std::mutex queueMutex;
-//    std::condition_variable condition;
-//    bool stop;
-//};
-//
-//int main() {
-//    const int rows = 50;
-//    const int cols = 3;
-//    const int numThreads = 12;
-//
-//    std::vector<std::vector<int>> matrix(rows, std::vector<int>(cols, 2));
-//
-//    // Создание пула потоков
-//    ThreadPool pool(numThreads);
-//
-//    // Постановка задач в пул для умножения каждой строки на её номер
-//    for (int i = 0; i < rows; ++i) {
-//        pool.enqueue(multiplyRow, std::ref(matrix[i]), i);
-//    }
-//
-//    // Ожидание завершения всех задач
-//    std::this_thread::sleep_for(std::chrono::seconds(1)); // Подождем, чтобы дать потокам время выполниться
-//
-//    // Вывод результата
-//    for (const std::vector<int>& row : matrix) {
-//        for (int element : row) {
-//            std::cout << element << " ";
-//        }
-//        std::cout << std::endl;
-//    }
+//    cv::imshow("Image", output_image);
+//    cv::waitKey(0);
 //
 //    return 0;
+//}
+//
+//TEST(Test_InvertColors, AllThreads)
+//{
+//    ImageProcessing img_proc;
+//    img_proc.setEffect(std::make_unique<InvertColors>());
+//
+//    cv::Mat input_image = cv::imread("bird.jpg");
+//
+//    if (input_image.empty()) {
+//        std::cerr << "Error: Unable to load input image." << std::endl;
+//    }
+//
+//    auto start_time = std::chrono::high_resolution_clock::now();
+//    cv::Mat output_image = img_proc.applyEffect(input_image);
+//    auto end_time = std::chrono::high_resolution_clock::now();
+//
+//    auto duration = std::chrono::duration_cast<std::chrono::microseconds>(end_time - start_time);
+//    std::cout << "Working hours: " << duration << std::endl;
+//
+//    //cv::imwrite("output_image.jpg", outputImage);
+//}
+//
+//
+//TEST(Test_InvertColors, OneThreads)
+//{
+//    ImageProcessing img_proc(1);
+//    img_proc.setEffect(std::make_unique<InvertColors>());
+//
+//    cv::Mat input_image = cv::imread("bird.jpg");
+//
+//    if (input_image.empty()) {
+//        std::cerr << "Error: Unable to load input image." << std::endl;
+//    }
+//
+//    auto start_time = std::chrono::high_resolution_clock::now();
+//    cv::Mat output_image = img_proc.applyEffect(input_image);
+//    auto end_time = std::chrono::high_resolution_clock::now();
+//
+//    auto duration = std::chrono::duration_cast<std::chrono::microseconds>(end_time - start_time);
+//    std::cout << "Working hours: " << duration << std::endl;
+//
+//    //cv::imwrite("output_image.jpg", outputImage);
+//}
+//
+//
+//TEST(Test_InvertColors, OverMoreThreads)
+//{
+//    ImageProcessing img_proc(100);
+//    img_proc.setEffect(std::make_unique<InvertColors>());
+//
+//    cv::Mat input_image = cv::imread("bird.jpg");
+//
+//    if (input_image.empty()) {
+//        std::cerr << "Error: Unable to load input image." << std::endl;
+//    }
+//
+//    auto start_time = std::chrono::high_resolution_clock::now();
+//    cv::Mat output_image = img_proc.applyEffect(input_image);
+//    auto end_time = std::chrono::high_resolution_clock::now();
+//
+//    auto duration = std::chrono::duration_cast<std::chrono::microseconds>(end_time - start_time);
+//    std::cout << "Working hours: " << duration << std::endl;
+//
+//    //cv::imwrite("output_image.jpg", outputImage);
 //}

@@ -28,7 +28,7 @@
     <ClCompile Include="InvertColors.cpp">
       <Filter>Strategies</Filter>
     </ClCompile>
-    <ClCompile Include="ThreadPool.cpp">
+    <ClCompile Include="ThreadPool.hpp">
       <Filter>ThreadPool</Filter>
     </ClCompile>
   </ItemGroup>
