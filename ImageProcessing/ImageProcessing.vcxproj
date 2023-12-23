@@ -155,15 +155,18 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Blur.cpp" />
+    <ClCompile Include="ChangeBrightness.cpp" />
     <ClCompile Include="ImageProcessing.cpp" />
     <ClCompile Include="InvertColors.cpp" />
-    <ClCompile Include="main.cpp" />
     <ClCompile Include="ThreadPool.hpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Blur.hpp" />
+    <ClInclude Include="ChangeBrightness.hpp" />
     <ClInclude Include="ImageProcessing.hpp" />
     <ClInclude Include="InvertColors.hpp" />
-    <ClInclude Include="my_exceptions.hpp" />
+    <ClInclude Include="MyExceptions.hpp" />
     <ClInclude Include="Effect.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

@@ -7,6 +7,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ImageProcessing", "ImagePro
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Test", "Test\Test.vcxproj", "{C603B550-4720-4066-8B00-1C243F27DB96}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Execution", "Execution\Execution.vcxproj", "{BADEE33F-F5EF-46AF-A454-1ED36306B715}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -31,6 +33,14 @@ Global
 		{C603B550-4720-4066-8B00-1C243F27DB96}.Release|x64.Build.0 = Release|x64
 		{C603B550-4720-4066-8B00-1C243F27DB96}.Release|x86.ActiveCfg = Release|Win32
 		{C603B550-4720-4066-8B00-1C243F27DB96}.Release|x86.Build.0 = Release|Win32
+		{BADEE33F-F5EF-46AF-A454-1ED36306B715}.Debug|x64.ActiveCfg = Debug|x64
+		{BADEE33F-F5EF-46AF-A454-1ED36306B715}.Debug|x64.Build.0 = Debug|x64
+		{BADEE33F-F5EF-46AF-A454-1ED36306B715}.Debug|x86.ActiveCfg = Debug|Win32
+		{BADEE33F-F5EF-46AF-A454-1ED36306B715}.Debug|x86.Build.0 = Debug|Win32
+		{BADEE33F-F5EF-46AF-A454-1ED36306B715}.Release|x64.ActiveCfg = Release|x64
+		{BADEE33F-F5EF-46AF-A454-1ED36306B715}.Release|x64.Build.0 = Release|x64
+		{BADEE33F-F5EF-46AF-A454-1ED36306B715}.Release|x86.ActiveCfg = Release|Win32
+		{BADEE33F-F5EF-46AF-A454-1ED36306B715}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

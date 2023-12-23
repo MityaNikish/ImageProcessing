@@ -1,10 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="Исходные файлы">
-      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
-      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
-    </Filter>
     <Filter Include="Strategies">
       <UniqueIdentifier>{d073946e-2d5b-4193-a46d-809a420d50ee}</UniqueIdentifier>
     </Filter>
@@ -19,9 +15,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="main.cpp">
-      <Filter>Исходные файлы</Filter>
-    </ClCompile>
     <ClCompile Include="ImageProcessing.cpp">
       <Filter>Context</Filter>
     </ClCompile>
@@ -31,9 +24,15 @@
     <ClCompile Include="ThreadPool.hpp">
       <Filter>ThreadPool</Filter>
     </ClCompile>
+    <ClCompile Include="ChangeBrightness.cpp">
+      <Filter>Strategies</Filter>
+    </ClCompile>
+    <ClCompile Include="Blur.cpp">
+      <Filter>Strategies</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="my_exceptions.hpp">
+    <ClInclude Include="MyExceptions.hpp">
       <Filter>Exceptions</Filter>
     </ClInclude>
     <ClInclude Include="ImageProcessing.hpp">
@@ -43,6 +42,12 @@
       <Filter>Strategies</Filter>
     </ClInclude>
     <ClInclude Include="InvertColors.hpp">
+      <Filter>Strategies</Filter>
+    </ClInclude>
+    <ClInclude Include="ChangeBrightness.hpp">
+      <Filter>Strategies</Filter>
+    </ClInclude>
+    <ClInclude Include="Blur.hpp">
       <Filter>Strategies</Filter>
     </ClInclude>
   </ItemGroup>

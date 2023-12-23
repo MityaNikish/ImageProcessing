@@ -4,6 +4,12 @@
 class InvertColors final : public Effect
 {
 public:
-    void addEffect(cv::Mat& img, const cv::Mat slice) override;
+    InvertColors() = default;
+    void addEffect(cv::Mat& img_changing, const cv::Mat& img_initial, const cv::Rect roi_rect_slice) override;
+
+    InvertColors(const InvertColors&) = default;
+    InvertColors& operator=(const InvertColors&) = default;
+    InvertColors(InvertColors&&) = default;
+    InvertColors& operator=(InvertColors&&) = default;
     ~InvertColors() override = default;
 };

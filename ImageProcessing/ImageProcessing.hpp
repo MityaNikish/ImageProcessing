@@ -11,7 +11,7 @@ class ImageProcessing final
 public:
     ImageProcessing();
     ImageProcessing(unsigned num_threads);
-    void setEffect(std::unique_ptr<Effect> new_strategy);
+    void setEffect(std::unique_ptr<Effect> new_effect);
     cv::Mat applyEffect(const cv::Mat& img, const uint8_t quantity_slices = 20) const;
     cv::Mat applyEffectSubsequently(const cv::Mat& img, const uint8_t quantity_slices = 20) const;
 
@@ -20,4 +20,7 @@ public:
     ImageProcessing& operator=(const ImageProcessing&) = delete;
     ImageProcessing& operator=(ImageProcessing&&) = default;
     ~ImageProcessing() = default;
+
+private:
+    cv::Mat applyEffectHelper(const cv::Mat& img, const uint8_t quantity_slices, const std::function<void(cv::Mat&, const cv::Mat&, const cv::Rect&)>& effect_function) const;
 };
