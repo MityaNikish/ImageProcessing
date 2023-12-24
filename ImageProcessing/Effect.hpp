@@ -1,7 +1,7 @@
 #pragma once
 #include <opencv2/opencv.hpp>
 
-//inline std::mutex mutex;
+inline std::mutex mutex;
 
 class Effect
 {

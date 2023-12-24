@@ -58,8 +58,7 @@ cv::Mat ImageProcessing::applyEffectSubsequently(const cv::Mat& img, const uint8
 //cv::Mat ImageProcessing::applyEffect(const cv::Mat& img, const uint8_t quantity_slices) const
 //{
 //    auto effectFunction = [this](cv::Mat& new_img, const cv::Mat& img, const cv::Rect& roi_rect_slice) {
-//        ThreadPool pool(num_threads_);
-//        pool.enqueue([this, &new_img, &img, &roi_rect_slice] { return effect_->addEffect(new_img, img, roi_rect_slice); });
+//        pool_.enqueue([this, &new_img, &img, &roi_rect_slice] { return effect_->addEffect(new_img, img, roi_rect_slice); });
 //        };
 //
 //    return applyEffectHelper(img, quantity_slices, effectFunction);

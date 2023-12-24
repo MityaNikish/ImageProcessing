@@ -1,5 +1,7 @@
 #pragma once
 
+#include <iostream>
+
 #include <vector>
 #include <thread>
 #include <mutex>
@@ -67,6 +69,7 @@ public:
         return res;
     }
 
+
     ~ThreadPool()
 	{
         {
@@ -80,6 +83,12 @@ public:
         for (std::jthread& worker : threads_) {
             worker.join();
         }
+
+        //while (!tasks_queue_.empty()) {
+        //    auto task = std::move(tasks_queue_.front());
+        //    tasks_queue_.pop();
+        //    task();
+        //}
     }
 
 private:
@@ -101,6 +110,7 @@ private:
             lock.unlock();
 
             task();
+            //std::cout << std::this_thread::get_id() << ": Something execute! " << std::endl;
         }
     }
 };

@@ -22,5 +22,5 @@ public:
     ~ImageProcessing() = default;
 
 private:
-    cv::Mat applyEffectHelper(const cv::Mat& img, const uint8_t quantity_slices, const std::function<void(cv::Mat&, const cv::Mat&, const cv::Rect&)>& effect_function) const;
+    //cv::Mat applyEffectHelper(const cv::Mat& img, const uint8_t quantity_slices, const std::function<void(cv::Mat&, const cv::Mat&, const cv::Rect&)>& effect_function) const;
 };
