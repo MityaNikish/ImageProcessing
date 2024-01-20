@@ -6,7 +6,7 @@
 #include "MyExceptions.hpp"
 #include "ImageProcessing.hpp"
 #include "InvertColors.hpp"
-#include "ChangeBrightness.hpp"
+#include "ChangeBrightnessAndContrast.hpp"
 #include "Blur.hpp"
 
 #include "ThreadPool.hpp"
@@ -35,7 +35,7 @@ TEST(Test_ThreadPool, MultiThreads)
 
     const auto duration = std::chrono::duration_cast<std::chrono::microseconds>(end_time - start_time);
 
-    EXPECT_TRUE(duration.count() < 5500); // всего 50000 mks
+    EXPECT_TRUE(duration.count() < 5500);
 }
 
 
@@ -81,8 +81,6 @@ TEST(Test_InvertColors, MultiThreads)
 
     const auto duration = std::chrono::duration_cast<std::chrono::microseconds>(end_time - start_time);
     std::cout << "Working hours MultiThreads InvertColors: " << duration << std::endl;
-
-    //cv::imwrite("output_image.jpg", outputImage);
 }
 
 
@@ -108,17 +106,15 @@ TEST(Test_InvertColors, Subsequently)
 
     const auto duration = std::chrono::duration_cast<std::chrono::microseconds>(end_time - start_time);
     std::cout << "Working hours Subsequently InvertColors: " << duration << std::endl;
-
-    //cv::imwrite("output_image.jpg", outputImage);
 }
 
-TEST(Test_ChangeBrightness, MultiThreads)
+TEST(Test_ChangeBrightnessAndContrast, MultiThreads)
 {
     cv::setNumThreads(1);
     cv::setUseOptimized(false);
 
     ImageProcessing img_proc;
-    img_proc.setEffect(std::make_unique<ChangeBrightness>(0.5));
+    img_proc.setEffect(std::make_unique<ChangeBrightnessAndContrast>(0.5, 10));
 
     const cv::Mat input_image = cv::imread(img_path);
 
@@ -133,19 +129,17 @@ TEST(Test_ChangeBrightness, MultiThreads)
     const auto end_time = std::chrono::high_resolution_clock::now();
 
     const auto duration = std::chrono::duration_cast<std::chrono::microseconds>(end_time - start_time);
-    std::cout << "Working hours MultiThreads ChangeBrightness: " << duration << std::endl;
-
-    //cv::imwrite("output_image.jpg", outputImage);
+    std::cout << "Working hours MultiThreads ChangeBrightnessAndContrast: " << duration << std::endl;
 }
 
 
-TEST(Test_ChangeBrightness, Subsequently)
+TEST(Test_ChangeBrightnessAndContrast, Subsequently)
 {
     cv::setNumThreads(1);
     cv::setUseOptimized(false);
 
     ImageProcessing img_proc;
-    img_proc.setEffect(std::make_unique<ChangeBrightness>(0.5));
+    img_proc.setEffect(std::make_unique<ChangeBrightnessAndContrast>(0.5, 10));
 
     const cv::Mat input_image = cv::imread(img_path);
 
@@ -160,9 +154,7 @@ TEST(Test_ChangeBrightness, Subsequently)
     const auto end_time = std::chrono::high_resolution_clock::now();
 
     const auto duration = std::chrono::duration_cast<std::chrono::microseconds>(end_time - start_time);
-    std::cout << "Working hours Subsequently ChangeBrightness: " << duration << std::endl;
-
-    //cv::imwrite("output_image.jpg", outputImage);
+    std::cout << "Working hours Subsequently ChangeBrightnessAndContrast: " << duration << std::endl;
 }
 
 TEST(Test_Blur, MultiThreads)
@@ -187,8 +179,6 @@ TEST(Test_Blur, MultiThreads)
 
     const auto duration = std::chrono::duration_cast<std::chrono::microseconds>(end_time - start_time);
     std::cout << "Working hours MultiThreads Blur: " << duration << std::endl;
-
-    //cv::imwrite("output_image.jpg", outputImage);
 }
 
 
@@ -198,7 +188,7 @@ TEST(Test_Blur, Subsequently)
     cv::setUseOptimized(false);
 
     ImageProcessing img_proc;
-    img_proc.setEffect(std::make_unique<Blur>(cv::Size(5, 5), 5, 5));
+    img_proc.setEffect(std::make_unique<Blur>(cv::Size(61, 61), 30, 30));
 
     const cv::Mat input_image = cv::imread(img_path);
 
@@ -214,6 +204,29 @@ TEST(Test_Blur, Subsequently)
 
     const auto duration = std::chrono::duration_cast<std::chrono::microseconds>(end_time - start_time);
     std::cout << "Working hours Subsequently Blur: " << duration << std::endl;
+}
 
-    //cv::imwrite("output_image.jpg", outputImage);
+
+TEST(Test_SomeEffects, MultiThreads)
+{
+    cv::setNumThreads(1);
+    cv::setUseOptimized(false);
+
+    ImageProcessing img_proc;
+    const cv::Mat input_image = cv::imread(img_path);
+
+    if (input_image.empty())
+    {
+        EXPECT_TRUE(false);
+        std::cerr << "Error: Unable to load input image." << std::endl;
+    }
+
+    img_proc.setEffect(std::make_unique<InvertColors>());
+    cv::Mat image_first_step = img_proc.applyEffect(input_image);
+
+    img_proc.setEffect(std::make_unique<ChangeBrightnessAndContrast>(0.5, 20));
+    cv::Mat image_second_step = img_proc.applyEffect(image_first_step);
+
+    img_proc.setEffect(std::make_unique<Blur>(cv::Size(61, 61), 30, 30));
+    cv::Mat image_third_step = img_proc.applyEffect(image_second_step);
 }

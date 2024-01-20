@@ -24,7 +24,7 @@
     <ClCompile Include="ThreadPool.hpp">
       <Filter>ThreadPool</Filter>
     </ClCompile>
-    <ClCompile Include="ChangeBrightness.cpp">
+    <ClCompile Include="ChangeBrightnessAndContrast.cpp">
       <Filter>Strategies</Filter>
     </ClCompile>
     <ClCompile Include="Blur.cpp">
@@ -44,7 +44,7 @@
     <ClInclude Include="InvertColors.hpp">
       <Filter>Strategies</Filter>
     </ClInclude>
-    <ClInclude Include="ChangeBrightness.hpp">
+    <ClInclude Include="ChangeBrightnessAndContrast.hpp">
       <Filter>Strategies</Filter>
     </ClInclude>
     <ClInclude Include="Blur.hpp">

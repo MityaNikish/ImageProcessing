@@ -156,14 +156,14 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Blur.cpp" />
-    <ClCompile Include="ChangeBrightness.cpp" />
+    <ClCompile Include="ChangeBrightnessAndContrast.cpp" />
     <ClCompile Include="ImageProcessing.cpp" />
     <ClCompile Include="InvertColors.cpp" />
     <ClCompile Include="ThreadPool.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Blur.hpp" />
-    <ClInclude Include="ChangeBrightness.hpp" />
+    <ClInclude Include="ChangeBrightnessAndContrast.hpp" />
     <ClInclude Include="ImageProcessing.hpp" />
     <ClInclude Include="InvertColors.hpp" />
     <ClInclude Include="MyExceptions.hpp" />
